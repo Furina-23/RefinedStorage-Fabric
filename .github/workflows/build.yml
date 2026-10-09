@@ -37,5 +37,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: refinedstorage-jars
-          path: build/libs/refinedstorage-fabric.jar
+          path: build/libs/refinedstorage-fabric-1.20.1.jar
           if-no-files-found: error
