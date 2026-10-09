@@ -11,7 +11,14 @@ base {
 }
 
 tasks.withType(AbstractArchiveTask).configureEach {
-    archiveVersion = '1.20.1'
+    archiveVersion = ''
+}
+
+tasks.register('versionedRemapJar', Copy) {
+    dependsOn tasks.named('remapJar')
+    from tasks.named('remapJar').flatMap { it.archiveFile }
+    into layout.buildDirectory.dir('libs')
+    rename { 'refinedstorage-fabric-1.20.1.jar' }
 }
 
 repositories {

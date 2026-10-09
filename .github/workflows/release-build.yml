@@ -37,7 +37,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Build and test
-        run: ./gradlew --no-daemon -Dorg.gradle.java.home="$JAVA_HOME" check build
+        run: ./gradlew --no-daemon -Dorg.gradle.java.home="$JAVA_HOME" check build versionedRemapJar
 
       - name: Attach JARs to GitHub release
         uses: softprops/action-gh-release@v2
