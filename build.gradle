@@ -7,7 +7,11 @@ group = 'com.refinedmods'
 version = project.findProperty('mod_version') ?: '1.12.4-fabric.1'
 
 base {
-    archivesName = 'refinedstorage'
+    archivesName = 'refinedstorage-fabric'
+}
+
+tasks.withType(AbstractArchiveTask).configureEach {
+    archiveVersion = ''
 }
 
 repositories {
