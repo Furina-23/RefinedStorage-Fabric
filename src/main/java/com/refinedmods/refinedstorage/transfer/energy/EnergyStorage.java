@@ -1,6 +1,11 @@
 package com.refinedmods.refinedstorage.transfer.energy;
 
-public class EnergyStorage implements IEnergyStorage {
+import net.fabricmc.fabric.api.transfer.v1.storage.StoragePreconditions;
+import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
+import net.fabricmc.fabric.api.transfer.v1.transaction.base.SnapshotParticipant;
+
+public class EnergyStorage extends SnapshotParticipant<Integer>
+    implements IEnergyStorage, team.reborn.energy.api.EnergyStorage {
     protected int energy;
     protected int capacity;
     protected int maxReceive;
@@ -58,6 +63,58 @@ public class EnergyStorage implements IEnergyStorage {
     @Override
     public boolean canReceive() {
         return maxReceive > 0;
+    }
+
+    @Override
+    public boolean supportsInsertion() {
+        return canReceive();
+    }
+
+    @Override
+    public boolean supportsExtraction() {
+        return canExtract();
+    }
+
+    @Override
+    public long insert(long maxAmount, TransactionContext transaction) {
+        StoragePreconditions.notNegative(maxAmount);
+        int amount = receiveEnergy((int) Math.min(maxAmount, Integer.MAX_VALUE), true);
+        if (amount > 0) {
+            updateSnapshots(transaction);
+            return receiveEnergy(amount, false);
+        }
+        return 0;
+    }
+
+    @Override
+    public long extract(long maxAmount, TransactionContext transaction) {
+        StoragePreconditions.notNegative(maxAmount);
+        int amount = extractEnergy((int) Math.min(maxAmount, Integer.MAX_VALUE), true);
+        if (amount > 0) {
+            updateSnapshots(transaction);
+            return extractEnergy(amount, false);
+        }
+        return 0;
+    }
+
+    @Override
+    public long getAmount() {
+        return getEnergyStored();
+    }
+
+    @Override
+    public long getCapacity() {
+        return getMaxEnergyStored();
+    }
+
+    @Override
+    protected Integer createSnapshot() {
+        return energy;
+    }
+
+    @Override
+    protected void readSnapshot(Integer snapshot) {
+        energy = snapshot;
     }
 }
 

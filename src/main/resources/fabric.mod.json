@@ -33,6 +33,7 @@
     "fabricloader": ">=0.19.5",
     "minecraft": "~1.20.1",
     "java": ">=17",
-    "fabric-api": ">=0.92.12"
+    "fabric-api": ">=0.92.12",
+    "team_reborn_energy": ">=3.0.0 <4.0.0"
   }
 }

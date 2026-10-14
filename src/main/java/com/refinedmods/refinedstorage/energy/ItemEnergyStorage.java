@@ -45,6 +45,12 @@ public class ItemEnergyStorage extends EnergyStorage {
 
         return extracted;
     }
+
+    @Override
+    protected void readSnapshot(Integer snapshot) {
+        super.readSnapshot(snapshot);
+        stack.getOrCreateTag().putInt(NBT_ENERGY, snapshot);
+    }
 }
 
 

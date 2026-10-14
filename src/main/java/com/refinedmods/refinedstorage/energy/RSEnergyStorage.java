@@ -39,6 +39,14 @@ public final class RSEnergyStorage {
             RSBlockEntities.CREATIVE_PORTABLE_GRID.get()
         );
         ITEM.registerFallback((stack, context) -> ItemEnergyStorageFactory.get(stack));
+        team.reborn.energy.api.EnergyStorage.SIDED.registerForBlockEntities(
+            (blockEntity, direction) -> (team.reborn.energy.api.EnergyStorage)
+                BLOCK.find(blockEntity.getLevel(), blockEntity.getBlockPos(), direction),
+            RSBlockEntities.CONTROLLER.get(), RSBlockEntities.CREATIVE_CONTROLLER.get(),
+            RSBlockEntities.PORTABLE_GRID.get(), RSBlockEntities.CREATIVE_PORTABLE_GRID.get()
+        );
+        team.reborn.energy.api.EnergyStorage.ITEM.registerFallback((stack, context) ->
+            ItemEnergyStorageFactory.get(stack) == null ? null : new FabricItemEnergyStorage(stack.getItem(), context));
     }
 }
 

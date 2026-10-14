@@ -308,7 +308,12 @@ public class PortableGridBlockEntity extends BaseBlockEntity implements IGrid, I
             RS.SERVER_CONFIG.getPortableGrid().getCapacity(),
             RS.SERVER_CONFIG.getPortableGrid().getCapacity(),
             RS.SERVER_CONFIG.getPortableGrid().getCapacity()
-        );
+        ) {
+            @Override
+            protected void onFinalCommit() {
+                setChanged();
+            }
+        };
         storage.receiveEnergy(energyStored, false);
         return storage;
     }

@@ -72,7 +72,12 @@ public class Network implements INetwork, IRedstoneConfigurable {
     private final ISecurityManager securityManager = new SecurityManager(this);
     private final IStorageCache<ItemStack> itemStorage = new ItemStorageCache(this);
     private final IStorageCache<FluidStack> fluidStorage = new FluidStorageCache(this);
-    private final BaseEnergyStorage energy = new BaseEnergyStorage(RS.SERVER_CONFIG.getController().getCapacity(), RS.SERVER_CONFIG.getController().getMaxTransfer(), 0);
+    private final BaseEnergyStorage energy = new BaseEnergyStorage(RS.SERVER_CONFIG.getController().getCapacity(), RS.SERVER_CONFIG.getController().getMaxTransfer(), 0) {
+        @Override
+        protected void onFinalCommit() {
+            markDirty();
+        }
+    };
     private final RootNetworkNode root;
     private final BlockPos pos;
     private final Level level;
